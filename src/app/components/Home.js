@@ -6,12 +6,13 @@ export class Home extends React.Component {
         super();
         this.state = {
             age: props.initialAge,
-            status: 0
+            status: 0,
+            homeLink: "Changed Link"
         };
     }
 
     //declare function
-    onMakeOlder(){
+    onMakeOlder() {
         this.setState({
             age: this.state.age + 3
         }); // this will trigger re-rendering of UI
@@ -20,6 +21,17 @@ export class Home extends React.Component {
         // this.onMakeOlder.bind(this) == ()=> this.onMakeOlder()
         // this.age +=3;
         // console.log(this.age); // you will see that it is getting incremented. But the state has not changed.
+
+        /* 
+        ReactJS uses the virtual DOM.
+        DOM written in JavaScript to maximize performance. It updates only the changed state.
+        ReactJS recreates virtual DOM, compare it with the OLD virtual DOM.
+        It will re-render the changed part.
+        */ 
+    }
+
+    onChangeLink() {
+        this.props.changeLink(this.state.homeLink);
     }
 
     render() {
@@ -29,6 +41,10 @@ export class Home extends React.Component {
                 <p>Status: {this.state.status}</p>
                 <hr/>
                 <button onClick={()=> this.onMakeOlder()} className="btn btn-primary">Make me older!</button>
+                <hr/>
+                <button onClick={this.props.greet}>Greet</button>
+                <hr/>
+                <button onClick={this.onChangeLink.bind(this)}>Change Header Link</button>
             </div>
         );
     }
@@ -39,4 +55,5 @@ export class Home extends React.Component {
 Home.propTypes = {
     name: PropTypes.string,
     initialAge: PropTypes.number,
+    greet: PropTypes.func,
 };
